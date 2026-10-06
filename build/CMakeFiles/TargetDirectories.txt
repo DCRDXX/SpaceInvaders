@@ -1,3 +1,0 @@
-D:/code/qt_test/build/CMakeFiles/qt_test.dir
-D:/code/qt_test/build/CMakeFiles/edit_cache.dir
-D:/code/qt_test/build/CMakeFiles/rebuild_cache.dir
