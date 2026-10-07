@@ -1,0 +1,16 @@
+--bare
+-I
+D:/code/SpaceInvaders/build
+-I
+D:/code/SpaceInvaders/build/SpaceInvaders
+-I
+D:/code/SpaceInvaders/build
+-I
+D:/Qt/6.11.2/mingw_64/qml
+--resource
+D:/code/SpaceInvaders/build/.qt/rcc/qmake_SpaceInvaders.qrc
+--resource
+D:/code/SpaceInvaders/build/.qt/rcc/game_raw_qml_0.qrc
+D:/code/SpaceInvaders/main.qml
+--json
+D:/code/SpaceInvaders/build/game_qmllint.json

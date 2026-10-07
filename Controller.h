@@ -6,8 +6,8 @@
 class Controller: public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(double x READ get_x WRITE set_x NORIFY x_change)
-    Q_PROPERTY(double y READ get_y WRITE set_y NORIFY y_change)
+    Q_PROPERTY(double x READ get_x WRITE set_x NOTIFY x_change)
+    Q_PROPERTY(double y READ get_y WRITE set_y NOTIFY y_change)
 
 public:
     Controller(QObject* parent = nullptr);
@@ -17,7 +17,7 @@ public:
         return _x;
     }
 
-    double get_x()
+    double get_y()
     {
         return _y;
     }
@@ -42,21 +42,39 @@ public:
 
     Q_INVOKABLE void move_left()
     {
-        set_x(m_x - _speed);
+        if (_x - _speed <= _min_x)
+        {
+            set_x(_min_x);
+        }
+        else
+        {
+            set_x(_x - _speed);
+        }
     }
     
     Q_INVOKABLE void move_right()
     {
-        set_x(m_x + _speed);
+        if (_x +  _speed >= _max_x - 50)
+        {
+            set_x(_max_x - 50);
+        }
+        else
+        {
+            set_x(_x + _speed);
+        }
     }
 
-singals:
+signals:
     void x_change();
     void y_change();
 private:
     double _x;
     double _y;
     double _speed;
+    double _min_x;
+    double _max_x;
+    double _min_y;
+    double _max_y;
 };
 
 #endif

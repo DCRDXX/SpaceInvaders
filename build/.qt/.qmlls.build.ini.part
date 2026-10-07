@@ -1,0 +1,3 @@
+[D:<SLASH>code<SLASH>SpaceInvaders]
+importPaths="D:/code/SpaceInvaders/build;D:/code/SpaceInvaders/build/SpaceInvaders;D:/Qt/6.11.2/mingw_64/qml"
+resourceFiles="D:/code/SpaceInvaders/build/.qt/rcc/qmake_SpaceInvaders.qrc;D:/code/SpaceInvaders/build/.qt/rcc/game_raw_qml_0.qrc"

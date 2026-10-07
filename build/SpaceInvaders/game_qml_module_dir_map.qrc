@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/">
+    <file alias="/SpaceInvaders">D:/code/SpaceInvaders/build/SpaceInvaders</file>
+
+  </qresource>
+</RCC>
