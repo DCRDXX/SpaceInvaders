@@ -1,5 +1,0 @@
-module SpaceInvaders
-typeinfo game.qmltypes
-prefer :/SpaceInvaders/
-depends QtQuick
-

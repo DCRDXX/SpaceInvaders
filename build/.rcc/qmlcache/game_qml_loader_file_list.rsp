@@ -1,5 +1,0 @@
---resource
-D:/code/SpaceInvaders/build/.qt/rcc/qmake_SpaceInvaders.qrc
---resource
-D:/code/SpaceInvaders/build/.qt/rcc/game_raw_qml_0.qrc
-/SpaceInvaders/main.qml

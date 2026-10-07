@@ -1,6 +1,0 @@
-<RCC>
-  <qresource prefix="/SpaceInvaders/">
-    <file alias="main.qml">D:/code/SpaceInvaders/main.qml</file>
-  </qresource>
-</RCC>
-
