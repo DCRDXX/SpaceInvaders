@@ -23,12 +23,8 @@ Window {
                control.move_right()
             }
             if (event.key === Qt.Key_Up) {
-               move.y -= 10
+               control.apply_thrust()
             }
-            if (event.key === Qt.Key_Down) {
-               move.y += 10
-            }
-
         }
         
     }

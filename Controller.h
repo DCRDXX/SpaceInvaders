@@ -2,6 +2,7 @@
 #define CONTROLLER_H
 
 #include <QObject>
+#include <QTimer>
 
 class Controller: public QObject
 {
@@ -42,39 +43,65 @@ public:
 
     Q_INVOKABLE void move_left()
     {
-        if (_x - _speed <= _min_x)
+        if (_x - _x_speed <= _x_min)
         {
-            set_x(_min_x);
+            set_x(_x_min);
         }
         else
         {
-            set_x(_x - _speed);
+            set_x(_x - _x_speed);
         }
     }
     
     Q_INVOKABLE void move_right()
     {
-        if (_x +  _speed >= _max_x - 50)
+        if (_x +  _x_speed >= _x_max - 50)
         {
-            set_x(_max_x - 50);
+            set_x(_x_max - 50);
         }
         else
         {
-            set_x(_x + _speed);
+            set_x(_x + _x_speed);
         }
     }
 
+    Q_INVOKABLE void apply_thrust()
+    {
+        _y_speed = _thrust;
+        if (_y < _y_max/1.5)
+        {
+            _y_speed = 0;
+        }
+    }
+
+public slots:
+    void update_state()
+    {
+        _y += _y_speed;
+        _y_speed += _gravity;
+        if (_y > _y_max)
+        {
+            _y = _y_max;
+        }
+
+        emit y_change();
+    }
+    
 signals:
     void x_change();
     void y_change();
 private:
     double _x;
     double _y;
-    double _speed;
-    double _min_x;
-    double _max_x;
-    double _min_y;
-    double _max_y;
+    double _x_speed;
+    double _x_min;
+    double _x_max;
+    double _y_min;
+    double _y_max;
+    double _y_speed;
+    double _gravity;
+    double _thrust;
+    QTimer _timer;
 };
 
 #endif
