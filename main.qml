@@ -1,12 +1,14 @@
 import QtQuick
 
-Window {
+Window
+{
     width: 1280
     height: 720
     visible: true
     title: qsTr("Hello World!")
 
-    Rectangle {
+    Rectangle
+    {
         id: move
         width: 50
         height: 50
@@ -25,7 +27,16 @@ Window {
             if (event.key === Qt.Key_Up) {
                control.apply_thrust()
             }
+            if (event.key === Qt.Key_Space) {
+               control.fire_bullet()
+            }   
         }
         
+    }
+    
+    Repeater
+    {
+        model: control.bullets
+        delegate: Bullet{}
     }
 }

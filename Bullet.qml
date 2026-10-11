@@ -1,0 +1,12 @@
+import QtQuick
+
+Rectangle
+{
+    id: bullet
+    width: 10
+    height: 10
+    color: "black"
+    x: model.x
+    y: model.y
+}
+   

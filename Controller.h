@@ -2,94 +2,45 @@
 #define CONTROLLER_H
 
 #include <QObject>
-#include <QTimer>
+#include <QQmlListProperty>
+#include <vector>
+#include "Bullet.h"
 
 class Controller: public QObject
 {
     Q_OBJECT
     Q_PROPERTY(double x READ get_x WRITE set_x NOTIFY x_change)
     Q_PROPERTY(double y READ get_y WRITE set_y NOTIFY y_change)
+    Q_PROPERTY(QQmlListProperty<Bullet> bullets READ get_bullets NOTIFY bullet_change)
 
 public:
     Controller(QObject* parent = nullptr);
 
-    double get_x()
-    {
-        return _x;
-    }
+    double get_x();
 
-    double get_y()
-    {
-        return _y;
-    }
+    double get_y();
 
-    void set_x(double value)
-    {
-        if (_x != value)
-        {
-            _x = value;
-            emit x_change();
-        }
-    }
+    void set_x(double value);
 
-    void set_y(double value)
-    {
-        if (_y != value)
-        {
-            _y = value;
-            emit y_change();
-        }
-    }
+    void set_y(double value);
 
-    Q_INVOKABLE void move_left()
-    {
-        if (_x - _x_speed <= _x_min)
-        {
-            set_x(_x_min);
-        }
-        else
-        {
-            set_x(_x - _x_speed);
-        }
-    }
+    Q_INVOKABLE void move_left();
     
-    Q_INVOKABLE void move_right()
-    {
-        if (_x +  _x_speed >= _x_max - 50)
-        {
-            set_x(_x_max - 50);
-        }
-        else
-        {
-            set_x(_x + _x_speed);
-        }
-    }
+    Q_INVOKABLE void move_right();
 
-    Q_INVOKABLE void apply_thrust()
-    {
-        _y_speed = _thrust;
-        if (_y < _y_max/1.5)
-        {
-            _y_speed = 0;
-        }
-    }
+    Q_INVOKABLE void apply_thrust();
 
+    Q_INVOKABLE void fire_bullet();
+
+    QQmlListProperty<Bullet> get_bullets();
+    
 public slots:
-    void update_state()
-    {
-        _y += _y_speed;
-        _y_speed += _gravity;
-        if (_y > _y_max)
-        {
-            _y = _y_max;
-        }
-
-        emit y_change();
-    }
+    void update_state();
     
 signals:
     void x_change();
     void y_change();
+    void bullet_change();
 private:
     double _x;
     double _y;
@@ -102,6 +53,7 @@ private:
     double _gravity;
     double _thrust;
     QTimer _timer;
+    QList<Bullet*> _bullet_list;
 };
 
 #endif

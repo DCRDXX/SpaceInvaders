@@ -1,3 +1,4 @@
+
 cmake_minimum_required(VERSION 3.16)
 
 project(SpaceInvaders)
@@ -12,12 +13,15 @@ qt_add_executable(game
     main.cpp
     Controller.h
     Controller.cpp
+    Bullet.h
+    Bullet.cpp
 )
 
 qt_add_qml_module(game
     URI SpaceInvaders
     QML_FILES
         main.qml
+        Bullet.qml
 )
 
 target_link_libraries(game
