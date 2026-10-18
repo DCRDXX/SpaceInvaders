@@ -29,14 +29,19 @@ Window
             }
             if (event.key === Qt.Key_Space) {
                control.fire_bullet()
-            }   
+            }
         }
-        
     }
     
     Repeater
     {
         model: control.bullets
         delegate: Bullet{}
+    }
+
+    Repeater
+    {
+        model: control.enemies
+        delegate: Enemy{}
     }
 }

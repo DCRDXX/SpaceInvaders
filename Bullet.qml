@@ -9,4 +9,3 @@ Rectangle
     x: model.x
     y: model.y
 }
-   

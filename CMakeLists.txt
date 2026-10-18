@@ -15,6 +15,8 @@ qt_add_executable(game
     Controller.cpp
     Bullet.h
     Bullet.cpp
+    Enemy.h
+    Enemy.cpp
 )
 
 qt_add_qml_module(game
@@ -22,6 +24,7 @@ qt_add_qml_module(game
     QML_FILES
         main.qml
         Bullet.qml
+        Enemy.qml
 )
 
 target_link_libraries(game

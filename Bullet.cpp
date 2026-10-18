@@ -1,10 +1,12 @@
-
+#include "Controller.h"
 #include "Bullet.h"
 
-Bullet::Bullet(QObject* parent): _x(1280/2-5), _y(720-80), _y_speed(-10)
+Bullet::Bullet(Controller* controller, QObject* parent): _x(1280/2-5), _y(720-80), _y_speed(-10)
 {
     connect(&_timer, &QTimer::timeout, this, &Bullet::update_bullet);
     _timer.start(16);
+
+    connect(this, &Bullet::bullet_destroyed, controller, &Controller::delete_bullet);
 }
 
 double Bullet::get_x()
@@ -38,4 +40,8 @@ void Bullet::set_y(double value)
 void Bullet::update_bullet()
 {
     set_y(_y + _y_speed);
+    if (_y < 0)
+    {
+        emit bullet_destroyed(this);
+    }
 }

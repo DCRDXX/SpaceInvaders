@@ -5,6 +5,7 @@
 #include <QQmlListProperty>
 #include <vector>
 #include "Bullet.h"
+#include "Enemy.h"
 
 class Controller: public QObject
 {
@@ -12,6 +13,7 @@ class Controller: public QObject
     Q_PROPERTY(double x READ get_x WRITE set_x NOTIFY x_change)
     Q_PROPERTY(double y READ get_y WRITE set_y NOTIFY y_change)
     Q_PROPERTY(QQmlListProperty<Bullet> bullets READ get_bullets NOTIFY bullet_change)
+    Q_PROPERTY(QQmlListProperty<Enemy> enemies READ get_enemies NOTIFY enemy_change)
 
 public:
     Controller(QObject* parent = nullptr);
@@ -32,15 +34,20 @@ public:
 
     Q_INVOKABLE void fire_bullet();
 
+    Q_INVOKABLE void create_enemy();
+
     QQmlListProperty<Bullet> get_bullets();
+
+    QQmlListProperty<Enemy> get_enemies();
     
 public slots:
     void update_state();
-    
+    void delete_bullet(Bullet* bullet);
 signals:
     void x_change();
     void y_change();
     void bullet_change();
+    void enemy_change();
 private:
     double _x;
     double _y;
@@ -53,7 +60,9 @@ private:
     double _gravity;
     double _thrust;
     QTimer _timer;
+    QTimer _timer_enemy;
     QList<Bullet*> _bullet_list;
+    QList<Enemy*> _enemy_list;
 };
 
 #endif
