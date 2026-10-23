@@ -31,6 +31,15 @@ Window
                control.fire_bullet()
             }
         }
+
+        Keys.onReleased: (event) => {
+            if (event.key === Qt.Key_Left) {
+               control.move_left_stop()
+            }
+            if (event.key === Qt.Key_Right) {
+               control.move_right_stop()
+            }
+        }
     }
     
     Repeater

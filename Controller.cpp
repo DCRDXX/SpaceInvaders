@@ -1,13 +1,17 @@
-
 #include "Controller.h"
 
 Controller::Controller(QObject* parent): _x(1280/2-25), _y(720-70), _x_speed(10), _x_min(0), _x_max(1280), _y_min(0), _y_max(670), _gravity(0.5), _thrust(-15)
 {
+    _move_left = false;
+    _move_right = false;
     connect(&_timer, &QTimer::timeout, this, &Controller::update_state);
     _timer.start(16);
 
     connect(&_timer_enemy, &QTimer::timeout, this, &Controller::create_enemy);
     _timer_enemy.start(1000 + rand() % 2000);
+
+    connect(&_timer_move, &QTimer::timeout, this, &Controller::update_move);
+    _timer_move.start(16);
 }
 
 double Controller::get_x()
@@ -40,26 +44,22 @@ void Controller::set_y(double value)
 
 void Controller::move_left()
 {
-    if (_x - _x_speed <= _x_min)
-    {
-        set_x(_x_min);
-    }
-    else
-    {
-        set_x(_x - _x_speed);
-    }
+    _move_left = true;
 }
 
 void Controller::move_right()
 {
-    if (_x +  _x_speed >= _x_max - 50)
-    {
-        set_x(_x_max - 50);
-    }
-    else
-    {
-        set_x(_x + _x_speed);
-    }
+    _move_right = true;
+}
+
+void Controller::move_left_stop()
+{
+    _move_left = false;
+}
+
+void Controller::move_right_stop()
+{
+    _move_right = false;
 }
 
 void Controller::apply_thrust()
@@ -79,8 +79,24 @@ void Controller::update_state()
     {
         _y = _y_max;
     }
-
+    check_collision();
     emit y_change();
+}
+
+void Controller::update_move()
+{
+    if (_move_left && _move_right)
+    {
+        return;
+    }
+    if (_move_left && _x - _x_speed > _x_min)
+    {
+        set_x(_x - _x_speed);
+    }
+    if (_move_right && _x + _x_speed < _x_max)
+    {
+        set_x(_x + _x_speed);
+    }
 }
 
 QQmlListProperty<Bullet> Controller::get_bullets()
@@ -123,3 +139,47 @@ void Controller::delete_bullet(Bullet* bullet)
         qInfo() << "bullet changed";
     }
 }
+
+void Controller::delete_enemy(Enemy* enemy)
+{
+    int index = _enemy_list.indexOf(enemy);
+    if (index != -1)
+    {
+        delete _enemy_list[index];
+        _enemy_list.removeAt(index);
+        emit enemy_change();
+        qInfo() << "enemy changed";
+    }
+}
+
+void Controller::check_collision()
+{
+    for (int i = _bullet_list.size() - 1; i >= 0; i--)
+    {
+        Bullet* bullet = _bullet_list[i];
+        for (int j = _enemy_list.size() - 1; j >= 0; j--)
+        {
+            Enemy* enemy = _enemy_list[j];
+
+            double bullet_left = bullet->get_x();
+            double bullet_right = bullet->get_x() + 10;
+            double bullet_top = bullet->get_y();
+            double bullet_bottom = bullet->get_y() + 30;
+
+            double enemy_left = enemy->get_x();
+            double enemy_right = enemy->get_x() + 50;
+            double enemy_top = enemy->get_y();
+            double enemy_bottom = enemy->get_y() + 50;
+
+            if (bullet_right > enemy_left && bullet_left < enemy_right &&
+            bullet_bottom > enemy_top && bullet_top < enemy_bottom)
+            {
+                delete_bullet(bullet);
+                delete_enemy(enemy);
+                break;
+            }
+        }
+    }
+}
+
+        

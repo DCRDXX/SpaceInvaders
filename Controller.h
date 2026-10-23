@@ -30,6 +30,10 @@ public:
     
     Q_INVOKABLE void move_right();
 
+    Q_INVOKABLE void move_left_stop();
+
+    Q_INVOKABLE void move_right_stop();
+    
     Q_INVOKABLE void apply_thrust();
 
     Q_INVOKABLE void fire_bullet();
@@ -39,10 +43,13 @@ public:
     QQmlListProperty<Bullet> get_bullets();
 
     QQmlListProperty<Enemy> get_enemies();
-    
+
+    void check_collision();
 public slots:
     void update_state();
+    void update_move();
     void delete_bullet(Bullet* bullet);
+    void delete_enemy(Enemy* enemy);
 signals:
     void x_change();
     void y_change();
@@ -59,7 +66,10 @@ private:
     double _y_speed;
     double _gravity;
     double _thrust;
+    bool _move_left;
+    bool _move_right;
     QTimer _timer;
+    QTimer _timer_move;
     QTimer _timer_enemy;
     QList<Bullet*> _bullet_list;
     QList<Enemy*> _enemy_list;
