@@ -1,6 +1,6 @@
 #include "Controller.h"
 
-Controller::Controller(QObject* parent): _x(1280/2-25), _y(720-70), _x_speed(10), _x_min(0), _x_max(1280), _y_min(0), _y_max(670), _gravity(0.5), _thrust(-15)
+Controller::Controller(QObject* parent): _x(1280/2-25), _y(720-70), _x_speed(10), _x_min(0), _x_max(1280), _y_min(0), _y_max(670), _gravity(0.5), _thrust(-15), _score(0)
 {
     _move_left = false;
     _move_right = false;
@@ -42,6 +42,17 @@ void Controller::set_y(double value)
     }
 }
 
+int Controller::get_score()
+{
+    return _score;
+}
+
+void Controller::set_score(int value)
+{
+    _score = value;
+    emit score_change();
+}    
+
 void Controller::move_left()
 {
     _move_left = true;
@@ -71,6 +82,31 @@ void Controller::apply_thrust()
     }
 }
 
+void Controller::restart_game()
+{
+    for (Enemy* enemy : _enemy_list)
+    {
+        delete enemy;
+    }
+    _enemy_list.clear();
+
+    for (Bullet* bullet : _bullet_list)
+    {
+        delete bullet;
+    }
+    _bullet_list.clear();
+
+    _move_left = false;
+    _move_right = false;
+    _score = 0;
+    
+    bullet_change();
+    enemy_change();
+
+    set_x(1280/2-25);
+    set_y(720-20);
+}
+
 void Controller::update_state()
 {
     _y += _y_speed;
@@ -80,6 +116,7 @@ void Controller::update_state()
         _y = _y_max;
     }
     check_collision();
+    check_over();
     emit y_change();
 }
 
@@ -170,16 +207,40 @@ void Controller::check_collision()
             double enemy_right = enemy->get_x() + 50;
             double enemy_top = enemy->get_y();
             double enemy_bottom = enemy->get_y() + 50;
-
+           
             if (bullet_right > enemy_left && bullet_left < enemy_right &&
             bullet_bottom > enemy_top && bullet_top < enemy_bottom)
             {
                 delete_bullet(bullet);
                 delete_enemy(enemy);
+                set_score(get_score() + 10);
                 break;
             }
         }
     }
 }
 
-        
+void Controller::check_over()
+{
+    for(Enemy* enemy : _enemy_list)
+    {
+        double enemy_left = enemy->get_x();
+        double enemy_right = enemy->get_x() + 50;
+        double enemy_top = enemy->get_y();
+        double enemy_bottom = enemy->get_y() + 50;
+
+        double player_left = get_x();
+        double player_right = get_x() + 50;
+        double player_top = get_y();
+        double player_bottom = get_y() + 50;
+
+        if (player_right > enemy_left && player_left < enemy_right &&
+        player_bottom > enemy_top && player_top < enemy_bottom ||
+        enemy_bottom > 720)
+        {
+            emit gameOver();
+            qInfo() << "game over";
+            break;
+        }
+    }
+}

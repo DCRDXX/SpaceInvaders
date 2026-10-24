@@ -2,6 +2,7 @@
 
 Enemy::Enemy(QObject* parent): _x(rand() % 1270), _y(0), _y_speed(1)
 {
+    _index = rand() % 5;
     connect(&_timer, &QTimer::timeout, this, &Enemy::update_enemy);
     _timer.start(50);
 }
@@ -32,6 +33,20 @@ void Enemy::set_y(double value)
         _y = value;
         emit y_change();
     }
+}
+
+int Enemy::get_index()
+{
+    return _index;
+}
+
+void Enemy::set_index(int value)
+{
+    if (_index != value)
+    {
+        _index = value;
+        emit index_change();
+    }    
 }
 
 void Enemy::update_enemy()

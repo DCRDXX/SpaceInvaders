@@ -6,6 +6,7 @@ project(SpaceInvaders)
 set(CMAKE_CXX_STANDARD 17)
 
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Quick)
 
@@ -17,6 +18,7 @@ qt_add_executable(game
     Bullet.cpp
     Enemy.h
     Enemy.cpp
+    resources/resources.qrc
 )
 
 qt_add_qml_module(game
