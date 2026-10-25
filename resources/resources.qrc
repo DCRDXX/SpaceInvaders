@@ -6,4 +6,14 @@
         <file>enemy4.png</file>
         <file>enemy5.png</file>        
     </qresource>
+    <qresource prefix = "/player">
+        <file>rocket.png</file>
+        <file>thruster.gif</file>
+        <file>bullet.png</file>        
+    </qresource>
+    <qresource prefix = "/fonts">
+        <file>Doto-ExtraBold.ttf</file>
+        <file>Doto-Bold.ttf</file>
+    </qresource>
+    
 </RCC>

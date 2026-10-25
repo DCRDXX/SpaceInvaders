@@ -5,6 +5,7 @@ Rectangle
     id: enemy
     width: 50
     height: 50
+    color: "Transparent"
     x: model.x
     y: model.y
 

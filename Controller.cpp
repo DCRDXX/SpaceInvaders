@@ -149,8 +149,8 @@ QQmlListProperty<Enemy> Controller::get_enemies()
 void Controller::fire_bullet()
 {
     Bullet* new_bullet = new Bullet(this);
-    new_bullet->set_x(_x);
-    new_bullet->set_y(_y);
+    new_bullet->set_x(_x+23);
+    new_bullet->set_y(_y-20);
     _bullet_list.append(new_bullet);
     emit bullet_change();
 }
