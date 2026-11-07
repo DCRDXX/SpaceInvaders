@@ -1,4 +1,3 @@
-
 cmake_minimum_required(VERSION 3.16)
 
 project(SpaceInvaders)
@@ -10,7 +9,7 @@ set(CMAKE_AUTORCC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Quick)
 
-qt_add_executable(game
+qt_add_executable(game WIN32
     main.cpp
     Controller.h
     Controller.cpp
