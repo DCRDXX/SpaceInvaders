@@ -217,5 +217,4 @@ Window
             delegate: Enemy{}
         }
     }
-
 }

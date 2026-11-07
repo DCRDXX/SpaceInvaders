@@ -9,7 +9,7 @@ Controller::Controller(QObject* parent): _x(1280/2-25), _y(720-70), _x_speed(10)
 
     connect(&_timer_enemy, &QTimer::timeout, this, &Controller::create_enemy);
     _timer_enemy.start(1000 + rand() % 2000);
-
+    
     connect(&_timer_move, &QTimer::timeout, this, &Controller::update_move);
     _timer_move.start(16);
 }
@@ -98,13 +98,13 @@ void Controller::restart_game()
 
     _move_left = false;
     _move_right = false;
-    _score = 0;
     
     bullet_change();
     enemy_change();
 
     set_x(1280/2-25);
     set_y(720-20);
+    set_score(0);
 }
 
 void Controller::update_state()
@@ -130,7 +130,7 @@ void Controller::update_move()
     {
         set_x(_x - _x_speed);
     }
-    if (_move_right && _x + _x_speed < _x_max)
+    if (_move_right && _x + _x_speed + 55 < _x_max)
     {
         set_x(_x + _x_speed);
     }
